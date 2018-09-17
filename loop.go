@@ -19,7 +19,7 @@ func conToBin(n int) string {
 func readFile() {
 	filename := "abc.txt"
 	file, err := os.Open(filename)
-	if (err != nil) {
+	if err != nil {
 		fmt.Println(err)
 	}
 	scanner := bufio.NewScanner(file)

@@ -29,4 +29,14 @@ func main() {
 	root.Println()
 
 	root.Travers()
+	//
+	fmt.Println("test travers with func argument")
+	nodeCount := 0
+	//能做很多事
+	root.TraversWithFunc(func(node *tree.Node) {
+		fmt.Println(node.Value)//打印 这里的node相当于在遍历方法里回传过来的
+		nodeCount++ //计算个数
+	})
+	fmt.Println(nodeCount)
+
 }

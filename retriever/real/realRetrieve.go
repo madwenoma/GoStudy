@@ -4,6 +4,7 @@ import (
 	"time"
 	"net/http"
 	"net/http/httputil"
+	"fmt"
 )
 
 type Retriever struct {
@@ -25,4 +26,8 @@ func (r *Retriever) Get(url string) string {
 		panic(err)
 	}
 	return string(result)
+}
+//实现Stringer接口 类似java重写toString
+func (r *Retriever) String() string {
+	return fmt.Sprintf("Retriever <content is %s>", r.UserAgent)
 }
