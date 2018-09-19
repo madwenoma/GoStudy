@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"fmt"
 	"strings"
+	"log"
 )
 
 /*
@@ -20,7 +21,8 @@ defer 用recover fun(){}接收并处理
 func handleFileList(writer http.ResponseWriter, request *http.Request) error {
 	if strings.Index(request.URL.Path, mapping) != 0 {
 		//return errors.New("url must start with " + mapping)
-		return listUserError("url must start with " + mapping)//listUserError是个string可以直接初始化
+		return listUserError("url must start with " + mapping) //listUserError是个string可以直接初始化
+		//panic(123)
 	}
 
 	path := request.URL.Path[len(mapping):]
@@ -46,15 +48,21 @@ type webHandler func(http.ResponseWriter, *http.Request) error
 //定义一个返回值是函数的函数，把函数作为基本类型，函数里有包含入参和返回值
 func errorWrapper(handler webHandler) func(http.ResponseWriter, *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
+
+		defer func() {
+			if r := recover(); r != nil {
+				log.Print("panic error->:", r)
+				http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+		}()
 		err := handler(writer, request)
 		code := http.StatusOK
 
-		if err, ok := err.(userError); ok {
-			http.Error(writer, err.Message(), http.StatusBadRequest)
-			return //不要漏了
-		}
-
 		if err != nil {
+			if err, ok := err.(userError); ok {
+				http.Error(writer, err.Message(), http.StatusBadRequest)
+				return //不要漏了
+			}
 			switch {
 			case os.IsNotExist(err):
 				code = http.StatusNotFound
