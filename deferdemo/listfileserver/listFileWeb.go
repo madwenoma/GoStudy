@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"log"
+	_ "net/http/pprof" //性能测试导入包，虽然没有使用，但命令行需要用到所以前面加下划线
 )
 
 /*
