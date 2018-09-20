@@ -18,7 +18,7 @@ func main() {
 		go myWorker(i, channels[i])
 	}
 	for i := 0; i < 10; i++ {
-		channels[i] <- 'a' + i //“a” + i会报错必须使用单引号
+		channels[i] <- 'a' + i
 	}
 	for i := 0; i < 10; i++ {
 		channels[i] <- 'A' + i //“a” + i会报错必须使用单引号
