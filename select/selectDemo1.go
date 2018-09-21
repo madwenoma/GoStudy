@@ -10,6 +10,7 @@ import (
 select demos
 1.语法
 2.select代码块里用case接受，两个channel哪一个先传数据过来就显示哪一个
+https://www.bilibili.com/video/av24365381/?p=45
 */
 
 func main() {
