@@ -9,7 +9,14 @@ import (
 /**
 select demos
 1.语法
-2.select代码块里用case接受，两个channel哪一个先传数据过来就显示哪一个
+2.通过select case进行调度控制
+	2.1通过变量控制发送和接收者的写作，当发送了一个值之后，接收者初始化开始接收，接收完毕后重新设置值
+		2.1.1通过bool值
+		2.1.2通过int分片
+	2.2time的两个用法
+		2.2.1time.After多少时间之后返回一个chan，定时器用途
+		2.2.2time.Tick每隔多少时间发送一个chan
+3.select中可以使用nilChannel
 */
 
 func createChan() chan int {
@@ -67,29 +74,29 @@ func main() {
 	fmt.Println("select...")
 	var c1, c2 = createChan(), createChan()
 	w := createWorker(0)
-	var values []int
+	var values []int                   //用来接收c1 c2发送的数据的缓冲分片
 	tm := time.After(20 * time.Second) //总时间
 	tick := time.Tick(time.Second)     //每隔多少时间返回一个channel，接收者根据tick进行相应操作
 
 	for {
 		var activeWorker chan<- int
 		var activeValue int
-		if len(values) > 0 {
-			activeWorker = w
-			activeValue = values[0]
+		if len(values) > 0 { //如果value有值了 ，表示c1 c2发送过数据
+			activeWorker = w        //给worker通道赋值
+			activeValue = values[0] //从缓冲里拿第一个数据进行发送
 		}
 		select {
 		case n := <-c1:
-			values = append(values, n)
+			values = append(values, n) //将数据加入到分片里
 		case n := <-c2:
-			values = append(values, n)
-		case activeWorker <- activeValue:
-			values = values[1:]
+			values = append(values, n) //将数据加入到分片里
+		case activeWorker <- activeValue: //吧数据发送给worker
+			values = values[1:] //删除已发送的数据
 		case <-time.After(800 * time.Millisecond): //for每次循环，重置时间，超过800ms就会打印
 			fmt.Println("timeout..")
-		case <-tick:
+		case <-tick: //当每次达到设定时间，通道都会收到数据
 			fmt.Println(len(values))
-		case <-tm:
+		case <-tm: //当tm达到设定时间，会收到通道数据
 			fmt.Println("bye")
 			return
 		}
