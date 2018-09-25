@@ -22,7 +22,7 @@ func main() {
 	match := re.FindAllString(txt, -1)                                   //找到所有匹配正则的部分
 	fmt.Println(match)
 
-	re2 := regexp.MustCompile(`([a-zA-Z0-9]+)@([a-zA-Z0-9]+)(\.[a-zA-Z0-9.]+)`) //程序里写的，默认为一定是匹配的,不需要处理错误
+	re2 := regexp.MustCompile(`([a-zA-Z0-9]+)@([a-zA-Z0-9]+)(\.[a-zA-Z0-9.]+)`) //用括号将需要分割的项括起来
 	matchAndSplit := re2.FindAllStringSubmatch(txt, -1)
 	for _, v := range matchAndSplit {
 		fmt.Println(v)
