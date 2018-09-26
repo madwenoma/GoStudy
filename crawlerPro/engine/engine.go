@@ -3,6 +3,7 @@ package engine
 import (
 	"GoStudy/crawlerPro/fetcher"
 	"log"
+	"time"
 )
 
 func Run(seed ...Request) {
@@ -22,9 +23,7 @@ func Run(seed ...Request) {
 		}
 		parseResult := r.ParserFunc(contents)
 		requests = append(requests, parseResult.Requests...)
-		for _, value := range parseResult.Items {
-			log.Printf("Got item %v", value)
-		}
+		time.Sleep(time.Millisecond * 1200)
 	}
 
 }

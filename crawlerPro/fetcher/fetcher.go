@@ -3,7 +3,6 @@ package fetcher
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -15,7 +14,10 @@ import (
 )
 
 func Fetcher(url string) ([]byte, error) {
-	resp, err := http.Get(url)
+	//resp, err := http.Get(url)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36 Core/1.47.933.400 QQBrowser/9.4.8699.400")
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -25,14 +27,15 @@ func Fetcher(url string) ([]byte, error) {
 	}
 
 	// utf8Reader := transform.NewReader(resp.Body, simplifiedchinese.GBK.NewDecoder())
-	e := determineEncoding(resp.Body)
-	utf8Reader := transform.NewReader(resp.Body, e.NewDecoder())
+	bodyReader := bufio.NewReader(resp.Body)
+	e := determineEncoding(bodyReader)
+	utf8Reader := transform.NewReader(bodyReader, e.NewDecoder())
 	return ioutil.ReadAll(utf8Reader)
 }
 
 //自动检测网页编码
-func determineEncoding(reader io.Reader) encoding.Encoding {
-	bytes, err := bufio.NewReader(reader).Peek(1024) //接着用？
+func determineEncoding(reader *bufio.Reader) encoding.Encoding {
+	bytes, err := reader.Peek(1024) //接着用？
 	if err != nil {
 		log.Printf("determineEncoding error:%v", err)
 		return unicode.UTF8

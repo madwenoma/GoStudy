@@ -1,8 +1,8 @@
 package main
 
 import (
-	"goStudy/crawlerPro/engine"
-	"goStudy/crawlerPro/zhenai/parser"
+	"GoStudy/crawlerPro/engine"
+	"GoStudy/crawlerPro/zhenai/parser"
 )
 
 func main() {
