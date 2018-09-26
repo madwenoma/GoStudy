@@ -33,7 +33,7 @@ func Fetcher(url string) ([]byte, error) {
 	return ioutil.ReadAll(utf8Reader)
 }
 
-//自动检测网页编码
+//自动检测网页编码，注意这里reader要传进来一个bufio的reader而不能用respBody，然后NewReader(resp.Body)
 func determineEncoding(reader *bufio.Reader) encoding.Encoding {
 	bytes, err := reader.Peek(1024) //接着用？
 	if err != nil {
