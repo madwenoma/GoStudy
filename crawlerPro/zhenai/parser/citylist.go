@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"GoStudy/crawlerPro/engine"
+	"goStudy/crawlerPro/engine"
 	"regexp"
 )
 
@@ -20,7 +20,7 @@ func ParseCityList(contents []byte) engine.ParserResult {
 		// for _, v := range c {
 		// 	fmt.Printf("city:%s", v)
 		// }
-		result.Items = append(result.Items, c[2])
+		result.Items = append(result.Items, string(c[2]))
 		result.Requests = append(result.Requests, engine.Request{
 			Url:        string(c[1]),
 			ParserFunc: engine.NilParser,
