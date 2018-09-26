@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"GoStudy/crawlerPro/engine"
 	"regexp"
+	"GoStudy/Chapter15/crawlerPro/engine"
 )
 
 /**
@@ -16,7 +16,7 @@ func ParseCityList(contents []byte) engine.ParseResult {
 	cityReq := regexp.MustCompile(cityReqStr)
 	matchCity := cityReq.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
-	limit := 5
+	limit := 200
 	for _, c := range matchCity {
 		// for _, v := range c {
 		// 	fmt.Printf("city:%s", v)

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"goStudy/retriever/mock"
-	"goStudy/retriever/real"
+	"GoStudy/retriever/mock"
+	"GoStudy/retriever/real"
 	"time"
 )
 

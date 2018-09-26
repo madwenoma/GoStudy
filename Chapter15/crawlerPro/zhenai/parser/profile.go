@@ -2,8 +2,8 @@ package parser
 
 import (
 	"regexp"
-	"GoStudy/crawlerPro/engine"
-	"GoStudy/crawlerPro/model"
+	"GoStudy/Chapter15/crawlerPro/engine"
+	"GoStudy/Chapter15/crawlerPro/model"
 	"strconv"
 	"fmt"
 )

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"goStudy/queue"
+	"GoStudy/queue"
 	"fmt"
 )
 

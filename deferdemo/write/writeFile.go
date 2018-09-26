@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"goStudy/deferdemo"
+	"GoStudy/deferdemo"
 	"os"
 	"bufio"
 )

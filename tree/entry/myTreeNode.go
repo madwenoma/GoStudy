@@ -1,7 +1,7 @@
 package main
 
 import (
-	"goStudy/tree"
+	"GoStudy/tree"
 	"fmt"
 )
 
