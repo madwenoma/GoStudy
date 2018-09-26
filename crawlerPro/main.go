@@ -6,10 +6,9 @@ import (
 )
 
 func main() {
-	req:=engine.Request{
-		Url:"http://www.zhenai.com/zhenghun",
-		ParserFunc:parser.ParseCityList,
-
+	req := engine.Request{
+		Url:        "http://www.zhenai.com/zhenghun",
+		ParserFunc: parser.ParseCityList,
 	}
 	engine.Run(req)
 }
