@@ -1,11 +1,13 @@
 package engine
 
 import (
-	"GoStudy/crawlerPro/fetcher"
+	"GoStudy/Chapter15/crawlerPro/fetcher"
 	"log"
 	"time"
 )
 
+//simple engine
+//single thread
 func Run(seed ...Request) {
 	var requests []Request
 	for _, req := range seed {
@@ -16,7 +18,7 @@ func Run(seed ...Request) {
 		r := requests[0]
 		requests = requests[1:]
 		log.Printf("fetching:%s", r.Url)
-		parseResult, err := worker(r)
+		parseResult, err := work(r)
 		if err != nil {
 			continue
 		}
@@ -25,7 +27,7 @@ func Run(seed ...Request) {
 	}
 }
 
-func worker(r Request) (ParseResult, error) {
+func work(r Request) (ParseResult, error) {
 	contents, err := fetcher.Fetcher(r.Url)
 	if err != nil {
 		log.Printf("Fetcher error fetching url %s %v", r.Url, err)

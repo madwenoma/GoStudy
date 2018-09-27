@@ -1,11 +1,10 @@
 package parser
 
 import (
-	"regexp"
 	"GoStudy/Chapter15/crawlerPro/engine"
 	"GoStudy/Chapter15/crawlerPro/model"
+	"regexp"
 	"strconv"
-	"fmt"
 )
 
 //<span class="label">性别：</span><span field="">女</span></td>
@@ -63,7 +62,7 @@ func ParseProfile(contents []byte, name string) engine.ParseResult {
 	user.House = extractStr(contents, houseReg)
 	user.Car = extractStr(contents, carReg)
 
-	fmt.Println("get user:",user)
+	// fmt.Println("get user:",user)
 
 	return engine.ParseResult{Items: []interface{}{user}}
 }

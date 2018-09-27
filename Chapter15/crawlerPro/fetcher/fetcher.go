@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/encoding"
@@ -13,8 +14,11 @@ import (
 	"golang.org/x/text/transform"
 )
 
+var rateLimiter = time.Tick(25 * time.Millisecond)
+
 func Fetcher(url string) ([]byte, error) {
 	//resp, err := http.Get(url)
+	<-rateLimiter
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36 Core/1.47.933.400 QQBrowser/9.4.8699.400")
 	resp, err := http.DefaultClient.Do(req)
