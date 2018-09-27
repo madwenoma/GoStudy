@@ -1,7 +1,7 @@
 package engine
 
 import (
-	"GoStudy/Chapter15/crawlerPro/fetcher"
+	"GoStudy/Chapter15/crawlerPro2/fetcher"
 	"log"
 	"time"
 )

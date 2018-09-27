@@ -1,8 +1,9 @@
 package main
 
 import (
-	"GoStudy/Chapter15/crawlerPro/engine"
-	"GoStudy/Chapter15/crawlerPro/zhenai/parser"
+	"GoStudy/Chapter15/crawlerPro2/engine"
+	"GoStudy/Chapter15/crawlerPro2/scheduler"
+	"GoStudy/Chapter15/crawlerPro2/zhenai/parser"
 )
 
 func main() {
@@ -13,7 +14,8 @@ func main() {
 	//engine.Run(req)
 
 	e := engine.ConcurrentEngine{
-		Scheduler:   &engine.SimpleScheduler{},
+		// Scheduler: &scheduler.SimpleScheduler{},
+		Scheduler:   &scheduler.QueueScheduler{},
 		WorkerCount: 20,
 	}
 	e.Run(req)

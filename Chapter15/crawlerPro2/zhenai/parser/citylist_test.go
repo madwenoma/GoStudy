@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"testing"
 	"io/ioutil"
+	"testing"
 )
 
 func TestParseCityList(t *testing.T) {
@@ -11,7 +11,7 @@ func TestParseCityList(t *testing.T) {
 		panic(err)
 	}
 	//fmt.Print(contents)
-	const resultSize = 470
+	const resultSize = 200
 
 	result := ParseCityList(contents)
 	//fmt.Println(result.Items)

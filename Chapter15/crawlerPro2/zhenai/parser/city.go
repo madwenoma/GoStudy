@@ -1,7 +1,7 @@
 package parser
 
 import (
-	"GoStudy/Chapter15/crawlerPro/engine"
+	"GoStudy/Chapter15/crawlerPro2/engine"
 	"regexp"
 )
 

@@ -1,8 +1,8 @@
 package parser
 
 import (
+	"GoStudy/Chapter15/crawlerPro2/engine"
 	"regexp"
-	"GoStudy/Chapter15/crawlerPro/engine"
 )
 
 /**
@@ -29,7 +29,7 @@ func ParseCityList(contents []byte) engine.ParseResult {
 
 		// fmt.Printf("cityName:%s,URL:%s\n", c[2], c[1]) //c[0]是整个匹配串
 		// fmt.Println()
-		limit --
+		limit--
 		if limit == 0 {
 			break
 		}

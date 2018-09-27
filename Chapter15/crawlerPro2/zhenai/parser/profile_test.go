@@ -1,10 +1,10 @@
 package parser
 
 import (
-	"testing"
-	"io/ioutil"
-	"GoStudy/crawlerPro/model"
+	"GoStudy/Chapter15/crawlerPro2/model"
 	"fmt"
+	"io/ioutil"
+	"testing"
 )
 
 func TestParseProfile(t *testing.T) {
@@ -36,5 +36,5 @@ func TestParseProfile(t *testing.T) {
 	if expectUserProfile != profile {
 		t.Errorf("wrong profile ,expect %v,but got %v", expectUserProfile, profile)
 	}
-	fmt.Println("get profile",profile)
+	fmt.Println("get profile", profile)
 }
