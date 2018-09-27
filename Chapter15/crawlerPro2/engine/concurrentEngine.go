@@ -12,17 +12,23 @@ type ConcurrentEngine struct {
 
 type Scheduler interface {
 	Submit(Request)
-	ConfigureMasterWorkChan(chan Request)
+	WorkerChan() chan Request
+	ReadyNotify
+	Run()
+}
+
+type ReadyNotify interface {
+	WorkerReady(chan Request)
 }
 
 func (e *ConcurrentEngine) Run(seeds ...Request) {
 
-	in := make(chan Request)
+	// in := make(chan Request)
 	out := make(chan ParseResult)
-	e.Scheduler.ConfigureMasterWorkChan(in)
+	e.Scheduler.Run()
 
 	for i := 0; i < e.WorkerCount; i++ {
-		createWorker(in, out)
+		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
 	}
 
 	for _, req := range seeds {
@@ -44,11 +50,12 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	}
 }
 
-//设置不断的收scheduler发来的request，并去请求，并发的将结果发送给out，out在主线程里接收
-func createWorker(in chan Request, out chan ParseResult) {
+//
+func createWorker(in chan Request, out chan ParseResult, r ReadyNotify) {
 	go func() {
 		for {
-			req := <-in //接受scheduler in管道发来的request
+			r.WorkerReady(in) //worker告诉scheduler，他已经就绪了
+			req := <-in
 			parseResult, err := work(req)
 			if err != nil {
 				continue
