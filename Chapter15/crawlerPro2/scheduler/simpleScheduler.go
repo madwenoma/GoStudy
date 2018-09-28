@@ -9,8 +9,10 @@ type SimpleScheduler struct {
 func (ss *SimpleScheduler) WorkerChan() chan engine.Request {
 	return ss.workerChan
 }
+
 func (ss *SimpleScheduler) WorkerReady(w chan engine.Request) {
 }
+
 func (ss *SimpleScheduler) Submit(req engine.Request) {
 	go func() { ss.workerChan <- req }()
 }
