@@ -13,12 +13,16 @@ func main() {
 		ParserFunc: parser.ParseCityList,
 	}
 	//engine.Run(req)
+	itemChan, err := persist.ItemSaver("data")
+	if err != nil {
+		panic(err)
+	}
 
 	e := engine.ConcurrentEngine{
 		// Scheduler: &scheduler.SimpleScheduler{},//想用simple要删除itemchan，16-1以后基本废弃
 		Scheduler:   &scheduler.QueueScheduler{},
 		WorkerCount: 50,
-		ItemChan:    persist.ItemSaver(),
+		ItemChan:    itemChan,
 	}
 	e.Run(req)
 }

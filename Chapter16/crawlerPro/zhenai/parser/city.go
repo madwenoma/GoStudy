@@ -16,11 +16,12 @@ func ParseCity(contents []byte) engine.ParseResult {
 	result := engine.ParseResult{}
 	for _, c := range matchCity {
 		name := string(c[2]) //必须提出来 原因？
+		url := string(c[1])
 		// result.Items = append(result.Items, name)
 		result.Requests = append(result.Requests, engine.Request{
-			Url: string(c[1]),
+			Url: url,
 			ParserFunc: func(bytes []byte) engine.ParseResult {
-				return ParseProfile(bytes, name)
+				return ParseProfile(bytes, url, name)
 			},
 		})
 	}

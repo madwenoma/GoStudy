@@ -8,16 +8,17 @@ import (
 )
 
 func TestParseProfile(t *testing.T) {
+	url := "http://album.zhenai.com/u/108906739"
 	contents, err := ioutil.ReadFile("profile_info.txt")
 	if err != nil {
 		panic(err)
 	}
 	//fmt.Printf("%s",contents)
-	user := ParseProfile(contents, "小顺儿")
+	user := ParseProfile(contents, url, "小顺儿")
 	if len(user.Items) != 1 {
 		t.Errorf("wrong result ,expect 1, but got%d", len(user.Items))
 	}
-	profile := user.Items[0].(model.Profile)
+	item := user.Items[0]
 	var expectUserProfile = model.Profile{
 		Name:       "小顺儿",
 		Gender:     "女",
@@ -33,8 +34,8 @@ func TestParseProfile(t *testing.T) {
 		House:      "和家人同住",
 		Car:        "未购车",
 	}
-	if expectUserProfile != profile {
-		t.Errorf("wrong profile ,expect %v,but got %v", expectUserProfile, profile)
+	if expectUserProfile != item.Payload {
+		t.Errorf("wrong profile ,expect %v,but got %v", expectUserProfile, item)
 	}
-	fmt.Println("get profile", profile)
+	fmt.Println("get profile", item)
 }
