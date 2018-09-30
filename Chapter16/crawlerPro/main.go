@@ -13,7 +13,7 @@ func main() {
 		ParserFunc: parser.ParseCityList,
 	}
 	//engine.Run(req)
-	itemChan, err := persist.ItemSaver("data")
+	itemChan, err := persist.ItemSaver("dating_profile")
 	if err != nil {
 		panic(err)
 	}

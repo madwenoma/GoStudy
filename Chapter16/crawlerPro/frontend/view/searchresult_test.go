@@ -6,12 +6,11 @@ import (
 
 	"GoStudy/Chapter16/crawlerPro/engine"
 	common "GoStudy/Chapter16/crawlerPro/model"
-	"GoStudy/Chapter16/frontend/model"
+	"GoStudy/Chapter16/crawlerPro/frontend/model"
 )
 
 func TestSearchResultView_Render(t *testing.T) {
-	view := CreateSearchResultView(
-		"template.html")
+	view := CreateSearchResultView("template.html")
 
 	out, err := os.Create("template.test.html")
 	if err != nil {

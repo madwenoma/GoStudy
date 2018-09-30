@@ -5,7 +5,7 @@ import (
 	"gopkg.in/olivere/elastic.v5"
 	"context"
 	"GoStudy/Chapter16/crawlerPro/engine"
-	"github.com/pkg/errors"
+	"errors"
 )
 
 func ItemSaver(index string) (chan engine.Item, error) {
