@@ -12,7 +12,7 @@ import (
 //^表示not ，[^>]表示not左括号，比如：[^>]*一直匹配到>就停止
 const cityReqStr = `<a href="(http://www.zhenai.com/zhenghun/[a-zA-Z0-9]+)"[^>]*>([^<]+)</a>`
 
-func ParseCityList(contents []byte) engine.ParseResult {
+func ParseCityList(contents []byte, _ string) engine.ParseResult {
 	cityReq := regexp.MustCompile(cityReqStr)
 	matchCity := cityReq.FindAllSubmatch(contents, -1)
 	result := engine.ParseResult{}
@@ -24,8 +24,8 @@ func ParseCityList(contents []byte) engine.ParseResult {
 
 		// result.Items = append(result.Items, string(c[2]))
 		result.Requests = append(result.Requests, engine.Request{
-			Url:        string(c[1]),
-			ParserFunc: ParseCity,
+			Url:    string(c[1]),
+			Parser: engine.NewFuncParser(ParseCity, "ParseCity"),
 		})
 
 		// fmt.Printf("cityName:%s,URL:%s\n", c[2], c[1]) //c[0]是整个匹配串

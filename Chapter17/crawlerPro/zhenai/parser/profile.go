@@ -37,7 +37,7 @@ var carReg = regexp.MustCompile(`<span class="label">是否购车：</span><span
 
 var idUrlReg = regexp.MustCompile(`http://album.zhenai.com/u/([\d]+)`)
 
-func ParseProfile(contents []byte, url string, name string) engine.ParseResult {
+func parseProfile(contents []byte, url string, name string) engine.ParseResult {
 	user := model.Profile{}
 	user.Name = name
 	user.Gender = extractStr(contents, genderReg)
@@ -83,4 +83,25 @@ func extractStr(contents []byte, reg *regexp.Regexp) string {
 	}
 
 	return ""
+}
+
+//
+
+type ProfileParser struct {
+	userName string
+}
+
+func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
+	return parseProfile(contents, url, p.userName)
+}
+
+func (p *ProfileParser) Serialize() (name string, args interface{}) {
+	return p.userName, nil
+}
+
+//工厂模式
+func NewProfileParser(n string) *ProfileParser {
+	return &ProfileParser{
+		userName: n,
+	}
 }

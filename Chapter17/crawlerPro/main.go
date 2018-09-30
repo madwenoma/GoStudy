@@ -10,8 +10,8 @@ import (
 
 func main() {
 	req := engine.Request{
-		Url:        "http://www.zhenai.com/zhenghun/shanghai",
-		ParserFunc: parser.ParseCityList,
+		Url:    "http://www.zhenai.com/zhenghun/shanghai",
+		Parser: engine.NewFuncParser(parser.ParseCityList, "ParseCityList"),
 	}
 	//engine.Run(req)
 	//itemChan, err := persist.ItemSaver("dating_profile")
