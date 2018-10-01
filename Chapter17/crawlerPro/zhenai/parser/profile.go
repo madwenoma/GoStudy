@@ -5,6 +5,7 @@ import (
 	"GoStudy/Chapter17/crawlerPro/model"
 	"regexp"
 	"strconv"
+	"GoStudy/Chapter17/crawlerPro/config"
 )
 
 //<span class="label">性别：</span><span field="">女</span></td>
@@ -96,7 +97,7 @@ func (p *ProfileParser) Parse(contents []byte, url string) engine.ParseResult {
 }
 
 func (p *ProfileParser) Serialize() (name string, args interface{}) {
-	return p.userName, nil
+	return config.ParseProfile, p.userName
 }
 
 //工厂模式

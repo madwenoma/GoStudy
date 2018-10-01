@@ -91,10 +91,3 @@ func DeserializeResult(r ParseResult) engine.ParseResult {
 	}
 	return result
 }
-
-type CrawlService struct {
-}
-
-func Process(req engine.Request, result *engine.ParseResult) error {
-
-}

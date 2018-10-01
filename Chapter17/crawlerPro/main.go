@@ -5,7 +5,8 @@ import (
 	"GoStudy/Chapter17/crawlerPro/scheduler"
 	"GoStudy/Chapter17/crawlerPro/zhenai/parser"
 
-	"GoStudy/Chapter17/persist/client"
+	itemSaverClient "GoStudy/Chapter17/persist/client"
+	workerRpcClient "GoStudy/Chapter17/worker/client"
 )
 
 func main() {
@@ -15,7 +16,13 @@ func main() {
 	}
 	//engine.Run(req)
 	//itemChan, err := persist.ItemSaver("dating_profile")
-	itemChan, err := client.ItemSave(":1234")
+	itemChan, err := itemSaverClient.ItemSave(":1234")
+	if err != nil {
+		panic(err)
+	}
+
+	//rpc worker
+	wProcessor, err := workerRpcClient.CreateProcessor()
 	if err != nil {
 		panic(err)
 	}
@@ -25,6 +32,8 @@ func main() {
 		Scheduler:   &scheduler.QueueScheduler{},
 		WorkerCount: 50,
 		ItemChan:    itemChan,
+		//RequestProcessor:engine.Work, //单机版
+		RequestProcessor: wProcessor, //rpc版
 	}
 	e.Run(req)
 }

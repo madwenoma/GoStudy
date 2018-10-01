@@ -7,7 +7,10 @@ type ConcurrentEngine struct {
 	Scheduler   Scheduler
 	WorkerCount int
 	ItemChan    chan Item
+	RequestProcessor Processor
 }
+
+type Processor func(Request) (ParseResult, error)
 
 type Scheduler interface {
 	Submit(Request)
@@ -27,7 +30,7 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	e.Scheduler.Run()
 
 	for i := 0; i < e.WorkerCount; i++ {
-		createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
+		e.createWorker(e.Scheduler.WorkerChan(), out, e.Scheduler)
 	}
 
 	for _, req := range seeds {
@@ -57,13 +60,15 @@ func (e *ConcurrentEngine) Run(seeds ...Request) {
 	}
 }
 
-//
-func createWorker(in chan Request, out chan ParseResult, r ReadyNotify) {
+// (e ConcurrentEngine) 作为调用者，将e传过去就可以调用RequestProcessor了
+func (e *ConcurrentEngine) createWorker(in chan Request, out chan ParseResult, r ReadyNotify) {
 	go func() {
 		for {
 			r.WorkerReady(in) //worker告诉scheduler，他已经就绪了
 			req := <-in
-			parseResult, err := Work(req)
+			//call
+			//parseResult, err := Work(req)
+			parseResult, err := e.RequestProcessor(req)
 			if err != nil {
 				continue
 			}
