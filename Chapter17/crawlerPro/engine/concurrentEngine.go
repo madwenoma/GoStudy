@@ -4,9 +4,9 @@ package engine
 //并发爬虫
 
 type ConcurrentEngine struct {
-	Scheduler   Scheduler
-	WorkerCount int
-	ItemChan    chan Item
+	Scheduler        Scheduler
+	WorkerCount      int
+	ItemChan         chan Item
 	RequestProcessor Processor
 }
 
