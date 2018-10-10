@@ -7,6 +7,9 @@ import (
 
 	itemSaverClient "GoStudy/Chapter17/persist/client"
 	workerRpcClient "GoStudy/Chapter17/worker/client"
+	"net/rpc"
+	"GoStudy/Chapter17/rpcsupport"
+	"log"
 )
 
 func main() {
@@ -21,11 +24,11 @@ func main() {
 		panic(err)
 	}
 
+	hosts := []string{":9000"}
+	pool := createProcessPool(hosts)
+
 	//rpc worker
-	wProcessor, err := workerRpcClient.CreateProcessor()
-	if err != nil {
-		panic(err)
-	}
+	wProcessor := workerRpcClient.CreateProcessor(pool)
 
 	e := engine.ConcurrentEngine{
 		// Scheduler: &scheduler.SimpleScheduler{},//想用simple要删除itemchan，16-1以后基本废弃
@@ -36,4 +39,24 @@ func main() {
 		RequestProcessor: wProcessor, //rpc版
 	}
 	e.Run(req)
+}
+func createProcessPool(hosts []string) chan *rpc.Client {
+	var clients []*rpc.Client
+	for _, host := range hosts {
+		client, err := rpcsupport.NewClient(host)
+		if err != nil {
+			log.Printf("rpc new client err:%v", err)
+		}
+		clients = append(clients, client)
+	}
+
+	out := make(chan *rpc.Client)
+	go func() {
+		for {
+			for _, client := range clients {
+				out <- client
+			}
+		}
+	}()
+	return out
 }
