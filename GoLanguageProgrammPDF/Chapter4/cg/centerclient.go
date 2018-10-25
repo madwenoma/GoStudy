@@ -7,7 +7,7 @@ import (
 )
 
 type CenterClient struct{
-	*ipc.IpcClient
+	*ipc.IpcClient //组合模式？？？
 }
 
 func (client *CenterClient) AddPlayer(player *Player) error {

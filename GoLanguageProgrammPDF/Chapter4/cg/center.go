@@ -78,7 +78,7 @@ func (server *CenterServer) listPlayer(params string) (players string, err error
 func (server *CenterServer) broadcast(params string) error {
 
 	var message Message
-	err := json.Unmarshal([]byte(params), &message)
+	err := json.Unmarshal([]byte(params), &message)//消息已经存入了message?
 	if err != nil {
 		return err
 	}

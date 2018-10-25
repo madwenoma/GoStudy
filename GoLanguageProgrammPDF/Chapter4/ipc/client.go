@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 )
 
-type IpcClient struct{ conn chan string }
+type IpcClient struct{
+	conn chan string
+}
 
 func NewIpcClient(server *IpcServer) *IpcClient {
 	c := server.Connect()

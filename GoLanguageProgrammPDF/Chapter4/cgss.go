@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-var centerClient *cg.CenterClient
+var centerClient *cg.CenterClient//全局
 
 func startCenterService() error {
 	server := ipc.NewIpcServer(&cg.CenterServer{})
