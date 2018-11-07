@@ -20,5 +20,5 @@ func testDefer() (z int) {
 		fmt.Println("defer:", z)
 		z += 100 //修改返回值
 	}()
-	return 100 //实际执行次序 z=100 ,call defer,ret
+	return 100 //实际执行次序 z=100 ,call defer,ret返回
 }
