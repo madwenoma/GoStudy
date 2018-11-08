@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
 
 func main() {
 	done := make(chan struct{}) ////同步模式,成对出现，否则会阻塞
@@ -14,6 +17,7 @@ func main() {
 	<-done               //通道接受消息
 
 	syncChan()
+	testCapAndLen()
 }
 
 func syncChan() {
@@ -25,5 +29,19 @@ func syncChan() {
 	fmt.Println(<-c)
 	fmt.Println(<-c)
 	fmt.Println(<-c)
+}
 
+//同步通道cap和len都返回0，可由此区别同步和异步通道
+func testCapAndLen() {
+	a, b := make(chan int), make(chan int, 3)
+	var c chan bool
+	b <- 1
+	b <- 2
+
+	fmt.Println(a == b)
+	fmt.Println(c == nil)
+	fmt.Printf("%p,%d\n", a, unsafe.Sizeof(a))
+
+	fmt.Println("a:", len(a), cap(a))
+	fmt.Println("b:", len(b), cap(b))
 }
