@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+//select 是随机的
 func main() {
 	var wg sync.WaitGroup
 	wg.Add(3)
@@ -17,7 +18,7 @@ func main() {
 			select {
 			case n, ok := <-a:
 				if !ok {
-					a = nil
+					a = nil//a通道不发送之后，设置为nil，就不再会被select case到
 					break
 				}
 				fmt.Println(n)
